@@ -1,83 +1,216 @@
-<!DOCTYPE html>
-<html lang="bn">
+<!DOCTYPE html><html lang="bn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TBP Salman AI</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box;font-family:Arial,sans-serif}
-body{background:#000;color:#fff;height:100vh;display:flex;flex-direction:column}
-.header{background:#111;padding:20px;text-align:center;font-size:32px;font-weight:bold;color:#00ff00;border-bottom:3px solid #00ff00}
-.chat-box{flex:1;overflow-y:auto;padding:20px}
-.message{max-width:80%;padding:15px;margin:10px 0;border-radius:15px;font-size:18px}
-.ai{background:#222;border-left:6px solid #00ff00}
-.user{background:#00ff00;color:#000;margin-left:auto}
-.input-area{display:flex;padding:15px;background:#111}
-input{flex:1;padding:15px;border:none;outline:none;border-radius:30px;background:#222;color:#fff;font-size:18px}
-button{width:70px;height:70px;border:none;border-radius:50%;background:#00ff00;font-size:30px;cursor:pointer}
-</style>
-</head>
-<body>
+<title>TBP Salman AI</title><style>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Arial,sans-serif;
+}
 
-<div class="header">TBP Salman AI Assistant</div>
+body{
+background:#000;
+color:#fff;
+height:100vh;
+display:flex;
+flex-direction:column;
+}
 
-<div class="chat-box" id="chatBox">
-<div class="message ai">হ্যালো ভাই! আমি TBP Salman AI Assistant। যেকোনো প্রশ্ন করতে পারো।</div>
-</div>
+.header{
+background:#111;
+padding:20px;
+text-align:center;
+font-size:32px;
+font-weight:bold;
+color:#00ff00;
+border-bottom:3px solid #00ff00;
+}
 
-<div class="input-area">
+.chat-box{
+flex:1;
+overflow-y:auto;
+padding:20px;
+}
+
+.message{
+max-width:80%;
+padding:15px;
+margin:10px 0;
+border-radius:15px;
+font-size:18px;
+word-wrap:break-word;
+}
+
+.ai{
+background:#222;
+border-left:5px solid #00ff00;
+}
+
+.user{
+background:#00ff00;
+color:#000;
+margin-left:auto;
+}
+
+.input-area{
+display:flex;
+padding:15px;
+background:#111;
+}
+
+input{
+flex:1;
+padding:15px;
+border:none;
+outline:none;
+border-radius:30px;
+background:#222;
+color:#fff;
+font-size:18px;
+}
+
+button{
+width:70px;
+height:70px;
+border:none;
+border-radius:50%;
+background:#00ff00;
+font-size:30px;
+font-weight:bold;
+margin-left:10px;
+cursor:pointer;
+}
+</style></head><body><div class="header">
+TBP Salman AI Assistant
+</div><div class="chat-box" id="chatBox"><div class="message ai">
+হ্যালো ভাই! আমি TBP Salman AI Assistant।<br>
+যেকোনো প্রশ্ন করতে পারো।
+</div></div><div class="input-area">
 <input type="text" id="userInput" placeholder="Type a message...">
 <button onclick="sendMessage()">➜</button>
-</div>
+</div><script>
 
-<script>
-const localAnswers={
-"hi":"Hi! কেমন আছো?",
-"hello":"Hello! আমি TBP Salman AI।",
-"how are you":"আমি ভালো আছি। তুমি কেমন আছো?",
-"kemon acho":"আমি ভালো আছি। তুমি কেমন আছো?",
+const localAnswers = {
 "বাংলাদেশ স্বাধীন হয় কত সালে":"বাংলাদেশ ১৯৭১ সালে স্বাধীনতা লাভ করে।",
 "bangladesh swadhin hoy koto sale":"বাংলাদেশ ১৯৭১ সালে স্বাধীনতা লাভ করে।",
+
+"বাংলাদেশের রাজধানী কোথায়":"বাংলাদেশের রাজধানী ঢাকা।",
+"bangladesher rajdhani kothay":"বাংলাদেশের রাজধানী ঢাকা।",
+
+"বাংলাদেশের জাতীয় ফুল কি":"শাপলা।",
+"bangladesher jatio ful ki":"শাপলা।",
+
+"বাংলাদেশের জাতীয় ফল কি":"কাঁঠাল।",
+"bangladesher jatio fol ki":"কাঁঠাল।",
+
+"বাংলাদেশের জাতীয় পাখি কি":"দোয়েল।",
+"bangladesher jatio pakhi ki":"দোয়েল।",
+
+"বাংলাদেশের জাতীয় মাছ কি":"ইলিশ।",
+"bangladesher jatio mach ki":"ইলিশ।",
+
+"বাংলাদেশের জাতীয় প্রাণী কি":"রয়েল বেঙ্গল টাইগার।",
+"bangladesher jatio prani ki":"রয়েল বেঙ্গল টাইগার।",
+
+"বাংলাদেশের জাতীয় কবি কে":"কাজী নজরুল ইসলাম।",
+"bangladesher jatio kobi ke":"কাজী নজরুল ইসলাম।",
+
+"বাংলাদেশের জাতীয় সংগীত কি":"আমার সোনার বাংলা।",
+"bangladesher jatio sangeet ki":"আমার সোনার বাংলা।",
+
+"বাংলাদেশের জনক কে":"বঙ্গবন্ধু শেখ মুজিবুর রহমান।",
+"bangladesher jonok ke":"বঙ্গবন্ধু শেখ মুজিবুর রহমান।",
+"বাংলাদেশের বিজয় দিবস কবে":"১৬ ডিসেম্বর।",
+"bangladesher bijoy dibosh kobe":"১৬ ডিসেম্বর।",
+
+"বাংলাদেশের স্বাধীনতা দিবস কবে":"২৬ মার্চ।",
+"bangladesher swadhinota dibosh kobe":"২৬ মার্চ।",
+
+"বাংলাদেশের মুদ্রার নাম কি":"বাংলাদেশি টাকা।",
+"bangladesher mudrar nam ki":"বাংলাদেশি টাকা।",
+
+"hello":"Hello! আমি TBP Salman AI।",
+"hi":"Hi! কেমন আছো?",
+"how are you":"আমি ভালো আছি। তুমি কেমন আছো?",
+"kemon acho":"আমি ভালো আছি। তুমি কেমন আছো?",
+
+"good morning":"Good Morning!",
+"good night":"Good Night!",
+"thank you":"Welcome!",
+"dhonnobad":"স্বাগতম!",
+
+"who are you":"আমি TBP Salman AI Assistant।",
+"ke tumi":"আমি TBP Salman AI Assistant।",
+
+"your name":"আমার নাম TBP Salman AI।",
+"tomar nam ki":"আমার নাম TBP Salman AI।",
+
+"১+১ কত":"১+১ = ২",
+"2+2":"২+২ = ৪",
+
+"সূর্য কোথা থেকে ওঠে":"পূর্ব দিক থেকে।",
+"surjo kotha theke othe":"পূর্ব দিক থেকে।",
+
+"পৃথিবীর একমাত্র উপগ্রহ কি":"চাঁদ।",
+"prithibir ekmatro upogroho ki":"চাঁদ।",
+
 "তোমাকে কে তৈরি করেছে":"আমাকে তৈরি করেছে Salman এবং তার বন্ধু Ashraful Islam।",
 "tomake ke toiri koreche":"আমাকে তৈরি করেছে Salman এবং তার বন্ধু Ashraful Islam।",
+
 "তোমার বন্ধু কে":"আমার বন্ধু Ashraful Islam।",
-"tomar bondhu ke":"আমার বন্ধু Ashraful Islam।"
+"tomar bondhu ke":"আমার বন্ধু Ashraful Islam।",
+
+"সালমান কে":"Salman আমার Creator এবং Owner।",
+"salman ke":"Salman আমার Creator এবং Owner।",
+
+"আশরাফুল ইসলাম কে":"আশরাফুল ইসলাম আমার বন্ধু।",
+"ashraful islam ke":"আশরাফুল ইসলাম আমার বন্ধু।"
 };
 
-function getReply(text){
-let t=text.toLowerCase();
-
-if(t.includes("ki korte paro")||t.includes("ki korte paren")||t.includes("কি করতে পারো")||t.includes("কি করতে পারেন"))
-return "আমি প্রশ্নের উত্তর দিতে এবং সাহায্য করতে পারি।";
-
-if(t.includes("salman"))
-return "Salman আমার Creator এবং Owner।";
-
-if(t.includes("ashraful"))
-return "Ashraful Islam আমার বন্ধু।";
-
-return localAnswers[t] || "দুঃখিত, এই প্রশ্নের উত্তর আমার ডাটাবেজে নেই।";
+const chat=document.getElementById("chatBox");
+const input=document.getElementById("userInput");
+function addMessage(type,text){
+    const div=document.createElement("div");
+    div.className="message "+type;
+    div.textContent=text;
+    chat.appendChild(div);
+    chat.scrollTop=chat.scrollHeight;
 }
 
 function sendMessage(){
-let input=document.getElementById("userInput");
-let text=input.value.trim();
-if(!text) return;
 
-let chat=document.getElementById("chatBox");
+    let text=input.value.trim().replace(/\s+/g," ");
 
-chat.innerHTML+=`<div class="message user">${text}</div>`;
-input.value="";
+    if(text==="") return;
 
-setTimeout(()=>{
-chat.innerHTML+=`<div class="message ai">${getReply(text)}</div>`;
-chat.scrollTop=chat.scrollHeight;
-},500);
+    addMessage("user",text);
+
+    input.value="";
+
+    setTimeout(function(){
+
+        let reply=
+        localAnswers[text]||
+        localAnswers[text.toLowerCase()]||
+        "দুঃখিত, এই প্রশ্নের উত্তর আমার ডাটাবেজে নেই।";
+
+        addMessage("ai",reply);
+
+    },700);
+
 }
 
-document.getElementById("userInput").addEventListener("keypress",function(e){
-if(e.key==="Enter") sendMessage();
+input.addEventListener("keydown",function(e){
+
+    if(e.key==="Enter"){
+        e.preventDefault();
+        sendMessage();
+    }
+
 });
+
 </script>
 
 </body>
